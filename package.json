@@ -1,0 +1,10 @@
+{
+    "name" : "soyoustart-notify",
+    "version": "0.1.0",
+    "repository": {
+      "type": "git",
+      "url": "git://github.com/ceefour/soyoustart-notify.git"
+    },
+    "dependencies": {
+    }
+}
