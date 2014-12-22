@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Zone-independent notify
+// Zone-specific notify
 // Get the JSON-P from:
 // http://ws.ovh.ca/dedicated/r2/ws.dispatcher/getAvailability2?callback=Request.JSONP.request_map.request_0
 // then you'll need to "cut the inside"
@@ -10,16 +10,21 @@ if (process.env.NODE_SILENT) {
 }
 
 var wantedProduct = process.argv[2];
-console.log('Wanting', wantedProduct);
+var wantedZone = process.argv[3];
+console.log('Wanting', wantedProduct, wantedZone);
 
 var Request = {JSONP: {request_map: {request_0: function(data) {
     data.answer.availability.forEach(function(it) {
         if (wantedProduct == it.reference) {
             it.zones.forEach(function(zone) {
-                if (zone.availability == 'unavailable' || zone.availability == 'unknown') {
-                    console.log('Product', it.reference, 'Zone', zone.zone, 'not available:', zone.availability);
+                if (wantedZone == zone.zone) {
+                    if (zone.availability == 'unavailable' || zone.availability == 'unknown') {
+                        console.log('Product', it.reference, 'Zone', zone.zone, 'unavailable:', zone.availability);
+                    } else {
+                        console.info('Product', it.reference, 'Zone', zone.zone, 'available!', zone.availability);
+                    }
                 } else {
-                    console.info('Product', it.reference, 'Zone', zone.zone, 'available!', zone.availability);
+                    console.log('ignoring', it.reference, 'unwanted zone', zone.zone, 'availability', zone.availability);
                 }
             });
         } else {
