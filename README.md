@@ -29,9 +29,16 @@ To silent output (usable in cron):
 
 ## Usage: Cron
 
-Exmaple to check `SYS-IP-1` every 15 minutes:
+Exmaple to check `SYS-IP-1` every 15 minutes, for `bhs` zone:
 
     crontab -e
 
     MAILTO=mail@example.com
-    */15 * * * * NODE_SILENT=true git/soyoustart-notify/soyoustart-notify.js 142casys4 bhs
+    */15 * * * * NODE_SILENT=true git/soyoustart-notify/soyoustart-notify-zone.js 142casys4 bhs
+
+Exmaple to check `SYS-IP-1` every 15 minutes, for any zone:
+
+    crontab -e
+
+    MAILTO=mail@example.com
+    */15 * * * * NODE_SILENT=true git/soyoustart-notify/soyoustart-notify.js 142casys4
